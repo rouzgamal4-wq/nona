@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نور ❤️ عالم الحب</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Poppins', 'Cairo', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background hearts */
+        .bg-heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.1;
+            animation: floatHeart 8s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.2;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main card */
+        .login-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 50px 40px;
+            width: 450px;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-align: center;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(80px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-card h1 {
+            font-size: 70px;
+            margin-bottom: 10px;
+            animation: heartbeat 1.5s ease infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .login-card h2 {
+            font-size: 32px;
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .login-card p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .password-label {
+            color: white;
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: block;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .password-hint {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            padding: 12px;
+            border-radius: 60px;
+            margin-bottom: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            letter-spacing: 4px;
+            display: inline-block;
+            width: auto;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px #ff6b6b, 0 0 10px #ff6b6b; }
+            50% { box-shadow: 0 0 20px #ff6b6b, 0 0 30px #feca57; }
+        }
+
+        .love-input {
+            width: 100%;
+            padding: 18px 20px;
+            font-size: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+            text-align: center;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+        }
+
+        .love-input:focus {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .love-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            border: none;
+            padding: 16px 50px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 60px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            margin-top: 20px;
+            display: none;
+            font-size: 14px;
+        }
+
+        @media (max-width: 550px) {
+            .login-card {
+                width: 90%;
+                padding: 40px 25px;
+            }
+            .login-card h2 {
+                font-size: 24px;
+            }
+            .password-hint {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h1>❤️</h1>
+        <h2>نور حياتي</h2>
+        <p>أنتِ أجمل قصة حب في التاريخ</p>
+        
+        <div class="password-label">🔐 كلمة السر مكتوبة قدامك:</div>
+        <div class="password-hint">Love</div>
+        
+        <input type="password" id="passwordInput" class="love-input" placeholder="اكتبي كلمة السر هنا...">
+        <button class="login-btn" onclick="checkPassword()">✨ ادخلي لعالم الحب ✨</button>
+        <div class="error-msg" id="errorMsg">❌ كلمة السر مش صحيحة يا حبيبتي</div>
+    </div>
+
+    <script>
+        // Create floating hearts in background
+        for(let i = 0; i < 50; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'bg-heart';
+            heart.innerHTML = ['❤️', '💖', '💗', '💓', '💕'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = (Math.random() * 30 + 15) + 'px';
+            heart.style.animationDuration = (Math.random() * 6 + 4) + 's';
+            heart.style.animationDelay = Math.random() * 8 + 's';
+            document.body.appendChild(heart);
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === 'Love') {
+                localStorage.setItem('loveAccess', 'true');
+                window.location.href = 'dashboard.html';
+            } else {
+                const error = document.getElementById('errorMsg');
+                error.style.display = 'block';
+                setTimeout(() => {
+                    error.style.display = 'none';
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>
