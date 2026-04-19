@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Punk Exam - Network & Security Questions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c111d 0%, #070b12 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        /* main app container */
+        .app {
+            max-width: 950px;
+            width: 100%;
+            background: rgba(15, 22, 36, 0.9);
+            backdrop-filter: blur(8px);
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255,255,255,0.05);
+            border: 1px solid rgba(66, 153, 225, 0.3);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        /* header */
+        .exam-header {
+            background: #050a14;
+            padding: 1.2rem 2rem;
+            border-bottom: 1px solid #1f2a44;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        h1 {
+            font-size: 1.6rem;
+            background: linear-gradient(120deg, #fff, #7ab3ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+        .badge {
+            background: #111a2b;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #8eb9ff;
+            border: 1px solid #2c3f66;
+        }
+
+        /* question area (page per question) */
+        .question-page {
+            padding: 2rem 2rem 1.8rem 2rem;
+            min-height: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+        .q-num-badge {
+            background: #1e2b46;
+            display: inline-block;
+            padding: 0.25rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            width: fit-content;
+            color: #bbd6ff;
+        }
+        .question-text {
+            font-size: 1.55rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #f0f4ff;
+            letter-spacing: -0.2px;
+        }
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        .opt {
+            background: #0f1624;
+            border: 1.5px solid #252f48;
+            border-radius: 1.2rem;
+            padding: 0.9rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .opt:hover {
+            background: #141d30;
+            border-color: #3c6eae;
+            transform: translateX(5px);
+        }
+        .opt.selected {
+            background: #1a2a46;
+            border-color: #3c8aff;
+            box-shadow: 0 0 8px #2b6ed7;
+        }
+        .opt-letter {
+            font-weight: 800;
+            background: #222e48;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            color: #adcbff;
+        }
+        .opt.selected .opt-letter {
+            background: #2d6bcb;
+            color: white;
+        }
+        .opt-text {
+            font-size: 1rem;
+            color: #e2eaff;
+        }
+        input[type="radio"] {
+            display: none;
+        }
+
+        /* navigation panel */
+        .nav-panel {
+            padding: 1.2rem 2rem 1.8rem 2rem;
+            border-top: 1px solid #192237;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            background: #080e18;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        .nav-btn {
+            background: #1f2a46;
+            border: none;
+            padding: 0.65rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-btn.primary {
+            background: #2266dd;
+            box-shadow: 0 4px 10px #2266dd40;
+        }
+        .nav-btn.primary:hover {
+            background: #367ef5;
+            transform: scale(1.02);
+        }
+        .nav-btn:hover:not(.primary) {
+            background: #2e3b60;
+        }
+        .progress {
+            font-size: 0.9rem;
+            background: #0c1220;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-family: monospace;
+            font-weight: bold;
+        }
+        .finish-btn {
+            background: #1f4b3c;
+            border-color: #2e8b6c;
+        }
+        .finish-btn:hover {
+            background: #2d7a5f;
+        }
+
+        /* results page (separate) */
+        .results-page {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+        .score-circle {
+            background: #03070f;
+            border-radius: 2rem;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid #2c3f66;
+        }
+        .big-score {
+            font-size: 3.5rem;
+            font-weight: 800;
+            font-family: monospace;
+            color: #7bcbff;
+        }
+        .incorrect-list {
+            background: #0d1422;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            max-height: 380px;
+            overflow-y: auto;
+        }
+        .incorrect-item {
+            padding: 0.8rem;
+            border-bottom: 1px solid #232e48;
+            font-size: 0.85rem;
+        }
+        .wrong-q {
+            color: #ffad7a;
+            font-weight: bold;
+        }
+        .restart-btn {
+            background: #2c3e66;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 3rem;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            width: 100%;
+            color: white;
+        }
+        .hide {
+            display: none;
+        }
+        footer {
+            font-size: 0.7rem;
+            text-align: center;
+            padding: 1rem;
+            color: #4f6188;
+            border-top: 1px solid #141e30;
+        }
+        @media (max-width: 650px) {
+            .question-text { font-size: 1.2rem; }
+            .opt { padding: 0.7rem; }
+            .nav-panel { flex-direction: column; align-items: stretch; }
+            .nav-buttons { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+<div class="app" id="appRoot">
+    <!-- dynamic views: questionView / resultView -->
+</div>
+
+<script>
+    // ======================== EXACT QUESTIONS FROM PDF (ENGLISH) ========================
+    const QUESTIONS = [
+        { text: "What does a wildcard mask of 0.0.0.0 do when paired with an IP address?", options: ["Matches all addresses", "Matches only that specific host", "Matches the entire class C network", "Matches the entire IPv4 space"], correct: 1 },
+        { text: "Which network would be matched by the wildcard mask 0.0.0.255?", options: ["192.168.1.0/24", "192.168.0.0/16", "192.168.1.0/16", "192.168.1.0/30"], correct: 0 },
+        { text: "Which range of addresses does the wildcard mask 0.0.15.255 correspond to?", options: ["192.168.16.0/24 to 192.168.31.0/24", "192.168.0.0/16 to 192.168.15.255", "192.168.10.0/23 to 192.168.19.0/23", "Only 192.168.16.0/24"], correct: 0 },
+        { text: "What is the quick shortcut method for calculating a wildcard mask from a subnet mask?", options: ["Add the subnet mask to 0.0.0.0", "Subtract the subnet mask from 255.255.255.255", "Invert the subnet mask", "Multiply the subnet mask by 2"], correct: 1 },
+        { text: "Which ACE would permit only the host 192.168.1.1 using a wildcard mask?", options: ["access-list 10 permit 192.168.1.1 0.0.0.0", "access-list 10 permit 192.168.1.1 0.0.0.255", "access-list 10 permit 192.168.1.1 255.255.255.255", "access-list 10 permit 192.168.1.1 0.0.0.255"], correct: 0 },
+        { text: "Why must signature databases be regularly updated?", options: ["To improve performance", "To keep threat intelligence current", "To reduce storage", "To change encryption"], correct: 1 },
+        { text: "Which command checks connectivity between two devices and reports latency?", options: ["ipconfig", "ping", "tracert", "nslookup"], correct: 1 },
+        { text: "What does VPN stand for?", options: ["Virtual Private Network", "Verified Public Node", "Virtual Public Network", "Visual Private Network"], correct: 0 },
+        { text: "What is the VPN server's role in the tunnel?", options: ["It decrypts data only", "It acts as middleman", "It stores data", "It disconnects you from internet"], correct: 1 },
+        { text: "How does VPN protect data from interception?", options: ["It blocks all traffic", "It encrypts data using a decryption key", "It forwards data without encryption", "It compresses data"], correct: 1 },
+        { text: "Standard ACLs filter packets based on which criterion?", options: ["Destination IP address", "Source IP address", "Protocol type", "Port numbers"], correct: 1 },
+        { text: "Standard IP ACLs are identified by which number range?", options: ["1-99", "100-199", "100-1999", "2000-2999"], correct: 0 },
+        { text: "Where should extended IPv4 ACLs be located for best effectiveness?", options: ["Close to the destination", "Close to the source", "At the firewall edge", "On every router"], correct: 1 },
+        { text: "Which statement about IDS and IPS is true?", options: ["IDS operates inline and can block traffic.", "IDS detects threats and alerts but does not operate on traffic inline.", "IPS cannot log events.", "IPS is only used in cloud environments."], correct: 1 },
+        { text: "Which method is not used by IPS for threat prevention?", options: ["Blocking malicious traffic", "Redirecting traffic to a honeypot", "Spamming the security team with alerts", "Removing malicious content"], correct: 2 },
+        { text: "What can the VPN server do to your real IP address to mask it?", options: ["It blocks it", "It replaces it with its own", "It logs it", "It ignores it"], correct: 1 },
+        { text: "Why is IPS placed inline on the network?", options: ["To encrypt all traffic", "To log but not block", "To block threats in real time as traffic passes", "To host services"], correct: 2 },
+        { text: "Where is an IPS typically placed relative to a firewall?", options: ["In front of the firewall", "Behind the firewall", "On client devices", "In the cloud only"], correct: 1 },
+        { text: "Which IPS type focuses on network behavior analysis?", options: ["NIPS", "HIPS", "NBA", "WIPS"], correct: 2 },
+        { text: "What is the main goal of Maintaining Access stage?", options: ["To patch vulnerabilities", "To maintain a constant presence within the target environment", "To delete traces", "To escalate privileges"], correct: 1 },
+        { text: "What is the purpose of redirecting traffic to a honeypot for an IPS?", options: ["To study attacker and protect real assets", "Speed up connection", "Prevent encryption", "Recruit the attacker"], correct: 0 },
+        { text: "Which option is NOT listed as a VPN method for security?", options: ["Encryption", "Firewall", "AAA", "VPN client software"], correct: 1 },
+        { text: "Which command displays the IP Address, Subnet Mask, and Default Gateway on Windows?", options: ["ping", "tracert", "ipconfig", "nslookup"], correct: 2 },
+        { text: "What is the main reason IPS is deployed inline?", options: ["To facilitate VPNs", "To inspect traffic and block threats in real time", "To offload traffic to the cloud", "To log only"], correct: 1 },
+        { text: "What is intrusion in cybersecurity terms?", options: ["A set of actions aimed to compromise integrity, confidentiality or availability of a resource", "A routine system update", "A harmless ping", "A data backup process"], correct: 0 },
+        { text: "What does the traceroute (or tracert) command do?", options: ["Displays the routing table", "Displays the hop-by-hop path across routers", "Resolves DNS names", "Scans open ports"], correct: 1 },
+        { text: "Nmap is used to:", options: ["Edit network configs", "Scan the network to identify connected devices and open ports", "Encrypt traffic", "Monitor traffic"], correct: 1 },
+        { text: "Which of the following is a method an IPS might use to block a threat?", options: ["End a user's session", "Block a specific IP address", "Block all traffic to a target", "All of the above"], correct: 3 },
+        { text: "In the network penetration testing process, which step comes second?", options: ["Reconnaissance", "Scanning", "Gaining access", "Maintaining Access"], correct: 1 },
+        { text: "What tool is commonly used to collect and analyze threat logs reported by IPS?", options: ["SIEM", "VPN", "DNS", "NMAP"], correct: 0 },
+        { text: "What is the main purpose of a VPN?", options: ["To slow down your internet", "To encrypt data and route through a VPN server", "To replace your ISP", "To block websites"], correct: 1 },
+        { text: "Without a VPN, where can your data travel during internet use?", options: ["Directly to websites", "Through your ISP's servers", "Only through VPNs", "It never leaves your device"], correct: 1 },
+        { text: "White Box penetration testing is also known as:", options: ["External testing", "Glass box testing", "Black box testing", "Gray box testing"], correct: 1 },
+        { text: "What happens to data during encryption in VPN?", options: ["It remains readable", "It is converted into code that can be deciphered with the correct key", "It becomes larger", "It is deleted"], correct: 1 },
+        { text: "Which of the following is listed as a common network-based attack to protect against?", options: ["Firewall Misconfiguration and Firewall Bypass", "IPS/IDS evasion", "Router Attacks", "DNS Level Attacks"], correct: 3 },
+        { text: "What does Gray Box penetration testing involve?", options: ["No information", "Full knowledge", "Partial knowledge", "Only code access"], correct: 2 },
+        { text: "In signature-based detection, how does the IPS determine a threat?", options: ["By analyzing network bandwidth usage", "By comparing packets to attack signatures in a database", "By enforcing user access policies", "By decrypting traffic and performing deep content inspection"], correct: 1 },
+        { text: "Which statement best describes the privacy benefit of a VPN?", options: ["It hides your browsing activity, identity, and location", "It reveals your identity to providers", "It only hides your location", "It slows all activity"], correct: 0 },
+        { text: "To specify a single host in an ACL, which wildcard mask is used with the IP address 172.16.30.5?", options: ["0.0.0.0", "255.255.255.255", "0.0.0.255", "255.0.0.0"], correct: 0 },
+        { text: "During the scanning phase, what is discovered?", options: ["Vulnerabilities and open ports", "Usernames and passwords", "Code quality", "Disk space usage"], correct: 0 },
+        { text: "During the network penetration testing process, which stage uses attacks such as SQL Injection and Cross-Site Scripting to exploit vulnerabilities?", options: ["Reconnaissance", "Gaining access", "Maintaining Access", "Covering Tracks"], correct: 1 },
+        { text: "In the network penetration testing process, what is the purpose of reconnaissance and information gathering?", options: ["Launch exploits", "Establish an attack plan and staging ground", "Delete logs", "Patch vulnerabilities"], correct: 1 },
+        { text: "What happens during the Covering Tracks/Analysis stage?", options: ["To uninstall security software", "To eliminate traces and share a comprehensive report", "To escalate privileges", "To reboot the target system"], correct: 1 },
+        { text: "What is a Remote Access client-based VPN?", options: ["Clientless remote access", "A VPN that uses hardware tokens", "Establishes a secure, encrypted connection from a user's device to the corporate network using VPN client software", "A site-to-site connection"], correct: 2 }
+    ];
+
+    const TOTAL = QUESTIONS.length;
+    let currentIndex = 0;            // 0-based
+    let answers = new Array(TOTAL).fill(null);   // stores selected option index (0-3) or null
+    let examFinished = false;
+
+    // DOM elements
+    const appRoot = document.getElementById('appRoot');
+
+    // Helper: render current question view
+    function renderQuestionView() {
+        if (examFinished) return;
+        const q = QUESTIONS[currentIndex];
+        const selectedVal = answers[currentIndex];
+        // build options HTML with letter prefix
+        const letters = ['A', 'B', 'C', 'D'];
+        const optionsHtml = q.options.map((opt, idx) => {
+            const isSelected = (selectedVal === idx);
+            return `
+                <div class="opt ${isSelected ? 'selected' : ''}" data-opt-index="${idx}">
+                    <div class="opt-letter">${letters[idx]}</div>
+                    <div class="opt-text">${escapeHtml(opt)}</div>
+                </div>
+            `;
+        }).join('');
+
+        const html = `
+            <div class="exam-header">
+                <h1>⚡ PUNK EXAM</h1>
+                <div class="badge">Network Security + VPN + ACL</div>
+            </div>
+            <div class="question-page">
+                <div class="q-num-badge">Question ${currentIndex+1} of ${TOTAL}</div>
+                <div class="question-text">${escapeHtml(q.text)}</div>
+                <div class="options-list" id="optionsContainer">
+                    ${optionsHtml}
+                </div>
+            </div>
+            <div class="nav-panel">
+                <div class="nav-buttons">
+                    <button class="nav-btn" id="prevBtn" ${currentIndex === 0 ? 'disabled style="opacity:0.5"' : ''}>◀ Previous</button>
+                    <button class="nav-btn" id="nextBtn">Next ▶</button>
+                </div>
+                <div class="progress">📌 ${answers.filter(a => a !== null).length} answered / ${TOTAL}</div>
+                <button class="nav-btn finish-btn" id="finishExamBtn">✅ Submit Exam</button>
+            </div>
+            <footer>Each question on its own page — select answer and navigate</footer>
+        `;
+        appRoot.innerHTML = html;
+
+        // attach click handlers to option divs
+        document.querySelectorAll('.opt').forEach(optDiv => {
+            optDiv.addEventListener('click', (e) => {
+                const optIndex = parseInt(optDiv.dataset.optIndex);
+                // update answers array
+                answers[currentIndex] = optIndex;
+                // re-render current view to reflect selection
+                renderQuestionView();
+            });
+        });
+
+        document.getElementById('prevBtn')?.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestionView();
+            }
+        });
+        document.getElementById('nextBtn')?.addEventListener('click', () => {
+            if (currentIndex < TOTAL - 1) {
+                currentIndex++;
+                renderQuestionView();
+            }
+        });
+        document.getElementById('finishExamBtn')?.addEventListener('click', () => {
+            // check if any unanswered?
+            const totalAnswered = answers.filter(a => a !== null).length;
+            if (totalAnswered < TOTAL) {
+                if (confirm(`You have ${TOTAL - totalAnswered} unanswered questions. Do you still want to submit?`)) {
+                    showResultsPage();
+                }
+            } else {
+                showResultsPage();
+            }
+        });
+    }
+
+    function showResultsPage() {
+        examFinished = true;
+        // calculate score & wrong answers
+        let correctCount = 0;
+        const wrongList = [];
+        for (let i = 0; i < TOTAL; i++) {
+            const userOpt = answers[i];
+            const correctIdx = QUESTIONS[i].correct;
+            if (userOpt !== null && userOpt === correctIdx) {
+                correctCount++;
+            } else {
+                const correctAnswerText = QUESTIONS[i].options[correctIdx];
+                const userAnswerText = (userOpt !== null) ? QUESTIONS[i].options[userOpt] : "Not answered";
+                wrongList.push({
+                    number: i+1,
+                    question: QUESTIONS[i].text,
+                    yourAnswer: userAnswerText,
+                    correctAnswer: correctAnswerText
+                });
+            }
+        }
+        const percent = Math.round((correctCount/TOTAL)*100);
+        let wrongHtml = '';
+        if (wrongList.length === 0) {
+            wrongHtml = '<div style="text-align:center; padding:1rem;">🎉 Perfect! No wrong answers 🎉</div>';
+        } else {
+            wrongHtml = `<div class="incorrect-list"><h3 style="margin-bottom:12px;">❌ Incorrect / Unanswered Questions (${wrongList.length})</h3>`;
+            wrongList.forEach(w => {
+                wrongHtml += `
+                    <div class="incorrect-item">
+                        <div class="wrong-q">Q${w.number}: ${escapeHtml(w.question)}</div>
+                        <div>🔹 Your answer: ${escapeHtml(w.yourAnswer)}</div>
+                        <div>✅ Correct: ${escapeHtml(w.correctAnswer)}</div>
+                    </div>
+                `;
+            });
+            wrongHtml += `</div>`;
+        }
+
+        const resultsHtml = `
+            <div class="exam-header">
+                <h1>📊 Exam Results</h1>
+                <div class="badge">Completion</div>
+            </div>
+            <div class="results-page">
+                <div class="score-circle">
+                    <div class="big-score">${correctCount} / ${TOTAL}</div>
+                    <div style="font-size:1.2rem; margin-top:8px;">Score: ${percent}%</div>
+                    <div style="margin-top:8px;">⭐ ${correctCount === TOTAL ? 'Expert' : (correctCount >= 35 ? 'Advanced' : (correctCount >= 25 ? 'Intermediate' : 'Review needed'))}</div>
+                </div>
+                ${wrongHtml}
+                <button class="restart-btn" id="restartExamBtn">🔄 Take Exam Again</button>
+            </div>
+            <footer>Review your wrong answers to improve</footer>
+        `;
+        appRoot.innerHTML = resultsHtml;
+        document.getElementById('restartExamBtn')?.addEventListener('click', () => {
+            // reset everything
+            answers = new Array(TOTAL).fill(null);
+            currentIndex = 0;
+            examFinished = false;
+            renderQuestionView();
+        });
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // initial render
+    renderQuestionView();
+</script>
+</body>
+</html>
